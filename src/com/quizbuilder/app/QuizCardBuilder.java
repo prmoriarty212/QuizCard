@@ -1,3 +1,13 @@
+/**
+QuizCardBuilder App written in the course of training
+on the book Head First Java, 2nd edition.
+
+Also in the process of writing code, recommendations of
+the Checkstyle plugin were used, with Sun Checks Rules
+*/
+
+package com.quizbuilder.app;
+
 import java.util.ArrayList;
 import java.awt.event.*;
 import javax.swing.*;
@@ -5,38 +15,63 @@ import java.awt.*;
 import java.io.*;
 
 public class QuizCardBuilder {
+    /**
+     * created text field question.
+     */
     private JTextArea question;
+    /**
+     * created text field answer.
+     */
     private JTextArea answer;
-    private ArrayList <QuizCard> cardList;
+
+    /**
+     * created list for our cards.
+     */
+    private ArrayList<QuizCard> cardList;
+    /**
+     * created our app frame.
+     */
     private JFrame frame;
 
-    public static void main(String[] args) {
+    /**
+     * Select the memory for our application and launch the Builder method.
+     * @param args
+     */
+     public static void main(final String[] args) {
         QuizCardBuilder builder = new QuizCardBuilder();
         builder.go();
     }
 
-    //Building GUI
-    public void go() {
+    /**
+     * Building GUI
+     */
+    private void go() {
         frame = new JFrame("Quiz Card Builder");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel mainPanel = new JPanel();
-        Font bigFont = new Font("sanserif", Font.BOLD, 24);
+        final Font bigFont = new Font("sanserif",
+                Font.BOLD,
+                24);
         question = new JTextArea(6, 20);
         question.setLineWrap(true);
         question.setWrapStyleWord(true);
         question.setFont(bigFont);
 
         JScrollPane qScroller = new JScrollPane(question);
-        qScroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        qScroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        qScroller.setVerticalScrollBarPolicy(
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        qScroller.setHorizontalScrollBarPolicy(
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         answer = new JTextArea(6, 20);
         answer.setLineWrap(true);
         answer.setFont(bigFont);
 
         JScrollPane aScroller = new JScrollPane(answer);
-        aScroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        aScroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        aScroller.setVerticalScrollBarPolicy(
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        aScroller.setHorizontalScrollBarPolicy(
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         JButton nextButton = new JButton("Next Card");
 
@@ -52,7 +87,10 @@ public class QuizCardBuilder {
         mainPanel.add(nextButton);
         nextButton.addActionListener(new NextCardListener());
 
-        //Create an object JMenuBar and add to it menu "File" with items "Create" and "Save"
+        /**
+         * Create an object JMenuBar and add to it menu "File"
+         * with items "Create" and "Save"
+         */
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         JMenuItem newMenuItem = new JMenuItem("New");
@@ -65,22 +103,27 @@ public class QuizCardBuilder {
         menuBar.add(fileMenu);
         frame.setJMenuBar(menuBar);
         frame.getContentPane().add(BorderLayout.CENTER, mainPanel);
-        frame.setSize(500,600);
+        frame.setSize(500, 600);
         frame.setVisible(true);
     }
-
-    // Add the current card to list and clear the fields
     public class NextCardListener implements ActionListener {
-        public void actionPerformed(ActionEvent ev) {
+        /**
+         * Add the current card to list and clear the fields.
+         * @param ev
+         */
+        public void actionPerformed(final ActionEvent ev) {
             QuizCard card = new QuizCard(question.getText(), answer.getText());
             cardList.add(card);
             clearCard();
         }
     }
-
-    //Call a dialog box that allows the user to call the file with your name and save a set of questions.
     public class SaveMenuListener implements ActionListener {
-        public void actionPerformed(ActionEvent ev) {
+        /**
+         * Call a dialog box that allows the user to call the file.
+         * with your name and save a set of questions.
+         * @param ev
+         */
+        public void actionPerformed(final ActionEvent ev) {
             QuizCard card = new QuizCard(question.getText(), answer.getText());
             cardList.add(card);
             JFileChooser fileSave = new JFileChooser();
@@ -88,23 +131,28 @@ public class QuizCardBuilder {
             saveFile(fileSave.getSelectedFile());
         }
     }
-
-    //clear the text fields and list of cards
     public class NewMenuListener implements ActionListener {
-        public void actionPerformed(ActionEvent ev) {
+        /**
+         * clear the text fields and list of cards.
+         * @param ev
+         */
+        public void actionPerformed(final ActionEvent ev) {
             cardList.clear();
             clearCard();
         }
     }
-
     private void clearCard() {
         question.setText("");
         answer.setText("");
         question.requestFocus();
     }
 
-    //We go through the list of cards and write each item in a text file, which can then be read
-    public void saveFile(File file) {
+    /**
+     * We go through the list of cards and write each item
+     * in a text file, which can then be read.
+     * @param file
+     */
+    public void saveFile(final File file) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             for (QuizCard card:cardList) {
@@ -112,17 +160,19 @@ public class QuizCardBuilder {
                 writer.write(card.getAnswer() + "\n");
             }
             writer.close();
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             System.out.println("couldn`t write the cardLIst out");
             ex.printStackTrace();
         }
     }
 
-    //Simple class dividing data on cards
-    public class QuizCard {
+    /**
+     * Quizcard class for dividing data.
+     */
+    final class QuizCard {
         private String question;
         private String answer;
-        public QuizCard(String q, String a) {
+        private QuizCard(final String q, final String a) {
             question = q;
             answer = a;
         }
