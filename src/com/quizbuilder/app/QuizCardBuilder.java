@@ -15,17 +15,18 @@ import java.awt.*;
 import java.io.*;
 
 public class QuizCardBuilder {
-    /**
-     * created text field question.
-     */
+
+
     private JTextArea question;
     /**
-     * created text field answer.
+     * Our outer class contains a private
+     * text box to enter answers.
      */
     private JTextArea answer;
 
     /**
-     * created list for our cards.
+     * Create a list that will store all cards
+     * with questions answers.
      */
     private ArrayList<QuizCard> cardList;
     /**
@@ -34,7 +35,7 @@ public class QuizCardBuilder {
     private JFrame frame;
 
     /**
-     * Select the memory for our application and launch the Builder method.
+     * run our builder and method go()
      * @param args
      */
      public static void main(final String[] args) {
@@ -109,7 +110,7 @@ public class QuizCardBuilder {
     public class NextCardListener implements ActionListener {
         /**
          * Add the current card to list and clear the fields.
-         * @param ev
+         * @param ev - triggers when you click on the "Next" button
          */
         public void actionPerformed(final ActionEvent ev) {
             QuizCard card = new QuizCard(question.getText(), answer.getText());
@@ -121,7 +122,7 @@ public class QuizCardBuilder {
         /**
          * Call a dialog box that allows the user to call the file.
          * with your name and save a set of questions.
-         * @param ev
+         * @param ev - triggers when you click on the "Save" button
          */
         public void actionPerformed(final ActionEvent ev) {
             QuizCard card = new QuizCard(question.getText(), answer.getText());
@@ -134,7 +135,7 @@ public class QuizCardBuilder {
     public class NewMenuListener implements ActionListener {
         /**
          * clear the text fields and list of cards.
-         * @param ev
+         * @param ev - triggers when you click on the "New" button
          */
         public void actionPerformed(final ActionEvent ev) {
             cardList.clear();
@@ -167,7 +168,7 @@ public class QuizCardBuilder {
     }
 
     /**
-     * Quizcard class for dividing data.
+     * QuizCard class for dividing data on cards.
      */
     final class QuizCard {
         private String question;
