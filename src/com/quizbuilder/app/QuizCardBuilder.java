@@ -18,20 +18,8 @@ public class QuizCardBuilder {
 
 
     private JTextArea question;
-    /**
-     * Our outer class contains a private
-     * text box to enter answers.
-     */
     private JTextArea answer;
-
-    /**
-     * Create a list that will store all cards
-     * with questions answers.
-     */
     private ArrayList<QuizCard> cardList;
-    /**
-     * created our app frame.
-     */
     private JFrame frame;
 
     /**
@@ -89,8 +77,9 @@ public class QuizCardBuilder {
         nextButton.addActionListener(new NextCardListener());
 
         /**
-         * Create an object JMenuBar and add to it menu "File"
-         * with items "Create" and "Save"
+         * We create an object JMenuBar and add a menu "File" with items "New" and "Save".
+         * Then we tell the main panel what it should use JMenuBar.
+         * Menu items can launch ActionEvent
          */
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
@@ -110,7 +99,7 @@ public class QuizCardBuilder {
     public class NextCardListener implements ActionListener {
         /**
          * Add the current card to list and clear the fields.
-         * @param ev - triggers when you click on the "Next" button
+         * @param ev
          */
         public void actionPerformed(final ActionEvent ev) {
             QuizCard card = new QuizCard(question.getText(), answer.getText());
@@ -120,9 +109,9 @@ public class QuizCardBuilder {
     }
     public class SaveMenuListener implements ActionListener {
         /**
-         * Call a dialog box that allows the user to call the file.
-         * with your name and save a set of questions.
-         * @param ev - triggers when you click on the "Save" button
+         * a dialog box is called and the program stops at this line until
+         * the user selects the Save menu
+         * @param ev
          */
         public void actionPerformed(final ActionEvent ev) {
             QuizCard card = new QuizCard(question.getText(), answer.getText());
@@ -135,7 +124,7 @@ public class QuizCardBuilder {
     public class NewMenuListener implements ActionListener {
         /**
          * clear the text fields and list of cards.
-         * @param ev - triggers when you click on the "New" button
+         * @param ev
          */
         public void actionPerformed(final ActionEvent ev) {
             cardList.clear();
@@ -149,13 +138,21 @@ public class QuizCardBuilder {
     }
 
     /**
-     * We go through the list of cards and write each item
-     * in a text file, which can then be read.
+     * A method that directly writes to the file
+     * (called by the event handler of the SaveMenuListener class).
+     * The argument is a File object that is saved by the user.
+     *
+     * We combine BufferedReader with new fileWriter for more efficient writing.
      * @param file
      */
     public void saveFile(final File file) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            /**
+             * run through the ArrayList with cards and write them one by one per line,
+             * separating the question and answer with a character "/" and at the end
+             * add the newline character "\n".
+             */
             for (QuizCard card:cardList) {
                 writer.write(card.getQuestion() + "/");
                 writer.write(card.getAnswer() + "\n");
